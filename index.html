@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#101c2a" />
+  <title>Cardboard Kart: Box Run</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="game" aria-label="Cardboard Kart racing game">
+    <canvas id="scene" aria-label="3D cardboard box racer game scene"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Cardboard Kart home"><span class="brand-mark">▰</span><span>BOX<span class="brand-accent">RUN</span></span></a>
+      <div class="track-pill"><span class="live-dot"></span> THE CARDBOARD CUP <span class="track-divider">/</span> <span id="track-name">SUNSET SCRAPWAY</span></div>
+      <button id="sound-btn" class="sound-btn" aria-label="Toggle sound">♫ <span>SOUND ON</span></button>
+    </header>
+
+    <section id="hud" class="hud hidden" aria-live="polite">
+      <div class="hud-left">
+        <div class="race-stat position-stat"><span class="stat-label">POSITION</span><div class="position-value"><strong id="position">1</strong><span> / 6</span></div></div>
+        <div class="race-stat lap-stat"><span class="stat-label">LAP</span><div class="lap-value"><strong id="lap">1</strong><span> / 3</span></div><div class="lap-track"><i id="lap-progress"></i></div></div>
+      </div>
+      <div class="hud-center"><span class="race-live"><i></i> RACE IN PROGRESS</span><div id="checkpoint">SCRAPWAY SPRINT</div></div>
+      <div class="hud-right"><div class="speed-wrap"><div class="speed-number"><strong id="speed">0</strong><span>KM/H</span></div><div class="speed-meter"><i id="speed-fill"></i></div></div><button id="pause-btn" class="pause-btn" aria-label="Pause race">Ⅱ</button></div>
+      <div class="boost-wrap"><span>CARDBOARD BOOST</span><div class="boost-track"><i id="boost-fill"></i></div><span class="boost-key">SPACE</span></div>
+    </section>
+
+    <section id="start-screen" class="screen">
+      <div class="screen-content">
+        <div class="eyebrow"><span class="eyebrow-line"></span> A RACE BUILT FROM THE GROUND UP</div>
+        <h1>CARDBOARD<br/><em>KART</em><span class="title-period">.</span></h1>
+        <p class="tagline">Big dreams. Small box. <strong>Full send.</strong></p>
+        <div class="start-meta"><span class="meta-icon">✳</span> 3 LAPS <b>·</b> 6 RACERS <b>·</b> ZERO REINFORCEMENTS</div>
+        <button id="start-btn" class="primary-btn"><span>START YOUR ENGINE</span><b>↗</b></button>
+        <div class="controls-note"><span>←</span><span>→</span> TO STEER <i></i> <kbd>SPACE</kbd> TO BOOST</div>
+      </div>
+      <div class="start-sticker">100%<br/><small>RECYCLED<br/>SPEED</small></div>
+      <div class="scroll-hint">BUILT DIFFERENT <span>↓</span></div>
+    </section>
+
+    <section id="finish-screen" class="screen hidden">
+      <div class="screen-content finish-content">
+        <div class="eyebrow"><span class="eyebrow-line"></span> CHECKERED FLAG</div>
+        <h2 id="finish-title">BOX<br/><em>LEGEND</em><span class="title-period">.</span></h2>
+        <p id="finish-copy" class="tagline">The humble box has done it again.</p>
+        <div class="finish-stats"><div><span>FINAL PLACE</span><strong id="final-place">1ST</strong></div><div><span>RACE TIME</span><strong id="final-time">00:00</strong></div><div><span>BOX FRESHNESS</span><strong id="final-condition">100%</strong></div></div>
+        <button id="restart-btn" class="primary-btn"><span>RACE AGAIN</span><b>↗</b></button>
+      </div>
+    </section>
+
+    <section id="pause-screen" class="screen hidden pause-screen">
+      <div class="screen-content"><div class="eyebrow"><span class="eyebrow-line"></span> TAKE A BREATHER</div><h2>RACE<br/><em>PAUSED</em><span class="title-period">.</span></h2><p class="tagline">Your box isn't going anywhere.</p><button id="resume-btn" class="primary-btn"><span>BACK TO IT</span><b>↗</b></button></div>
+    </section>
+
+    <div class="touch-controls" aria-label="Touch racing controls"><button id="touch-left" aria-label="Steer left">‹</button><button id="touch-boost" aria-label="Boost">BOOST</button><button id="touch-right" aria-label="Steer right">›</button></div>
+    <div id="toast" class="toast"></div>
+    <footer class="footer"><span>CARDBOARD CUP <i>®</i></span><span>NO BOX LEFT BEHIND</span><span id="best-time">PERSONAL BEST — --:--</span></footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
