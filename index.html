@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#101611" />
+  <title>Emberbound — The Living Ruins</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <div id="scene" aria-label="3D volcanic garden game"></div>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Emberbound home"><span class="brand-mark">✦</span><span>EMBER<span class="brand-light">BOUND</span></span></a>
+      <div class="chapter"><span class="chapter-kicker">THE LIVING RUINS</span><span class="chapter-name">Ashen Courtyard <i>01 / 03</i></span></div>
+      <button class="icon-button" id="soundBtn" aria-label="Toggle sound" title="Sound on">♫</button>
+      <button class="icon-button help-button" id="helpBtn" aria-label="How to play">?</button>
+    </header>
+    <section class="mission-card" aria-live="polite">
+      <div class="eyebrow"><span class="pulse"></span> YOUR PURPOSE</div>
+      <h1 id="missionTitle">Gather the lost embers</h1>
+      <p id="missionCopy">Find 3 ember seeds. Your lava clears the way.</p>
+      <div class="progress-row"><div class="progress-track"><span id="progressFill"></span></div><b id="progressCount">0 <small>/ 3</small></b></div>
+    </section>
+    <div class="status-pills">
+      <div class="pill"><span class="pill-icon heart">♥</span><span id="heatStatus">COOL ENOUGH</span></div>
+      <div class="pill"><span class="pill-icon">▰</span><span><b id="scrapCount">5</b> PLANKS</span></div>
+    </div>
+    <div class="hint-toast" id="toast" aria-live="polite">Tap a tile to explore</div>
+    <section class="tool-dock" aria-label="Game tools">
+      <div class="dock-top"><div><span class="eyebrow">YOUR TOOLS</span><span class="tool-caption" id="toolCaption">Choose a tile to move</span></div><div class="bucket-meter" id="bucketMeter"><span class="bucket-icon">▱</span><span class="bucket-label">LAVA</span><span class="charge-dots" id="chargeDots"><i></i><i></i><i></i></span></div></div>
+      <div class="tool-list">
+        <button class="tool active" data-tool="move"><span class="tool-glyph">⌖</span><span class="tool-text"><b>Explore</b><small>Move around</small></span><kbd>1</kbd></button>
+        <button class="tool" data-tool="pour"><span class="tool-glyph lava-glyph">♨</span><span class="tool-text"><b>Pour lava</b><small>Burn timber</small></span><kbd>2</kbd></button>
+        <button class="tool" data-tool="build"><span class="tool-glyph build-glyph">▧</span><span class="tool-text"><b>Rebuild</b><small>Place a wall</small></span><kbd>3</kbd></button>
+        <button class="tool" data-tool="break"><span class="tool-glyph break-glyph">✣</span><span class="tool-text"><b>Break</b><small>Recover planks</small></span><kbd>4</kbd></button>
+      </div>
+      <div class="dock-foot"><span class="tip-dot">i</span><span id="toolTip">Tap a nearby tile to walk there.</span><span class="touch-hint">DRAG TO ORBIT <b>·</b> PINCH TO ZOOM</span></div>
+    </section>
+    <div class="mobile-actions"><button id="rotateLeft" aria-label="Rotate left">↶</button><button id="rotateRight" aria-label="Rotate right">↷</button></div>
+    <div class="corner-label">A SMALL WORLD, IN YOUR HANDS</div>
+    <div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-card"><button class="modal-close" id="closeModal" aria-label="Close">×</button><span class="modal-icon">✦</span><span class="eyebrow">FIELD NOTES</span><h2 id="modalTitle">A little heat goes a long way.</h2><p>Explore the ruins and collect all three ember seeds. Choose <b>Pour lava</b>, then tap nearby timber to set it alight. It takes a few moments to burn through.</p><p>Use <b>Rebuild</b> to place a plank wall, or <b>Break</b> to dismantle one and recover materials. Lava refills over time — keep an eye on the bucket.</p><div class="modal-controls"><span>ON DESKTOP <b>WASD / ARROWS</b></span><span>ON TOUCH <b>TAP TO MOVE</b></span></div><button class="primary-button" id="gotIt">LET'S EXPLORE <span>→</span></button></div></div>
+    <div class="win-banner hidden" id="winBanner"><div class="win-spark">✦</div><div><b>The courtyard remembers.</b><span>All ember seeds gathered — your world is yours to shape.</span></div><button id="keepPlaying">KEEP PLAYING</button></div>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
