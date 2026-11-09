@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#08090c" />
+  <meta name="description" content="Grand Theft Block — a seeded voxel open-world crime sandbox. Every world is generated from a seed." />
+  <title>GRAND THEFT BLOCK — San Voxel</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game" aria-label="Game viewport"></canvas>
+
+    <div id="fade"></div>
+    <div id="damage-flash"></div>
+    <div id="vignette"></div>
+
+    <!-- ===================== HUD ===================== -->
+    <div id="hud" class="hidden">
+      <div id="hud-top-left" class="hud-corner">
+        <div id="location-line"><span class="map-pin"></span><span id="location">DOWNTOWN</span></div>
+        <div id="seed-line">SEED <b id="seed-display">—</b></div>
+      </div>
+
+      <div id="hud-top-right" class="hud-corner">
+        <div id="wanted-row"><span id="wanted-stars"></span></div>
+        <div id="cash-row"><span class="cash-label">CASH</span><span id="cash">$0</span></div>
+        <div id="clock-row"><span id="clock">09:30</span><span id="day-label">MON</span></div>
+      </div>
+
+      <div id="minimap-wrap">
+        <canvas id="minimap" width="220" height="220"></canvas>
+        <div id="minimap-n">N</div>
+        <div id="minimap-ring"></div>
+      </div>
+
+      <div id="status-bars">
+        <div class="stat-row">
+          <span class="stat-icon health-icon">+</span>
+          <div class="bar-shell"><div id="health-bar" class="bar health"></div></div>
+          <span id="health-num" class="stat-num">100</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-icon armor-icon">◆</span>
+          <div class="bar-shell"><div id="armor-bar" class="bar armor"></div></div>
+          <span id="armor-num" class="stat-num">0</span>
+        </div>
+        <div class="stat-row weapon-row">
+          <span class="stat-icon weapon-icon">▸</span>
+          <span id="weapon-name">PISTOL</span>
+          <span id="ammo">12 / 96</span>
+        </div>
+      </div>
+
+      <div id="vehicle-panel" class="hidden">
+        <div id="speed-num">0</div>
+        <div id="speed-unit">KM/H</div>
+        <div id="speed-bar-shell"><div id="speed-bar"></div></div>
+        <div id="gear">D</div>
+      </div>
+
+      <div id="crosshair" class="hidden"><i></i><i></i><i></i><i></i><b></b></div>
+      <div id="prompt" class="hidden"></div>
+      <div id="notifications"></div>
+      <div id="mission-box" class="hidden">
+        <div id="mission-kicker">JOB</div>
+        <div id="mission-title">—</div>
+        <div id="mission-objective">—</div>
+        <div id="mission-timer">—</div>
+      </div>
+      <div id="big-banner" class="hidden"><div id="big-banner-title">DOWNTOWN</div><div id="big-banner-sub">SAN VOXEL</div></div>
+      <div id="hint">
+        <span class="key">WASD</span> move
+        <span class="key">SHIFT</span> sprint
+        <span class="key">E</span> interact
+        <span class="key">M</span> map
+        <span class="key">ESC</span> menu
+      </div>
+    </div>
+
+    <!-- ===================== MOBILE CONTROLS ===================== -->
+    <div id="mobile-controls" class="hidden">
+      <div id="joystick-zone">
+        <div id="joystick"><div id="joystick-knob"></div></div>
+      </div>
+      <div id="touch-buttons">
+        <button id="btn-fire" class="touch-btn action">FIRE</button>
+        <button id="btn-jump" class="touch-btn">JUMP</button>
+        <button id="btn-enter" class="touch-btn interact">ENTER</button>
+        <button id="btn-reload" class="touch-btn small">RLD</button>
+        <button id="btn-menu" class="touch-btn small">II</button>
+      </div>
+      <div id="look-hint"></div>
+    </div>
+
+    <!-- ===================== START SCREEN ===================== -->
+    <div id="start-screen">
+      <div class="start-top">
+        <div class="brand-chip"><span class="brand-dot"></span> OPEN WORLD // VOXEL CRIME SIM</div>
+        <div class="build-chip">v1.0</div>
+      </div>
+
+      <div class="start-main">
+        <div class="logo-block">
+          <div class="logo-kicker">SAN VOXEL COUNTY</div>
+          <h1 class="logo">
+            <span class="logo-line1">GRAND THEFT</span>
+            <span class="logo-line2">BLOCK</span>
+          </h1>
+          <div class="logo-tag">THE CITY IS BUILT FROM BLOCKS. THE CRIME IS ALL YOURS.</div>
+        </div>
+
+        <div class="seed-card">
+          <label for="seed-input">WORLD SEED</label>
+          <div class="seed-row">
+            <input id="seed-input" type="text" maxlength="32" spellcheck="false" autocomplete="off" />
+            <button id="seed-random" class="ghost-btn" title="Random seed">⟳</button>
+          </div>
+          <div class="seed-help">Same seed → same coastline, skyline, streets and traffic layout. Share it to replay this exact world.</div>
+          <button id="play-btn" class="play-btn"><span>ENTER THE CITY</span><span class="play-arrow">▶</span></button>
+          <div class="seed-sub"><span id="seed-preview">—</span><span id="seed-world-tag">GENERATING…</span></div>
+        </div>
+      </div>
+
+      <div class="start-bottom">
+        <div class="feature-strip">
+          <div class="feature"><b>∞</b><span>SEEDED WORLDS</span></div>
+          <div class="feature"><b>◈</b><span>LIVE CITY</span></div>
+          <div class="feature"><b>✹</b><span>WANTED SYSTEM</span></div>
+          <div class="feature"><b>▣</b><span>STEAL ANY CAR</span></div>
+          <div class="feature"><b>✚</b><span>JOBS & PAYDAYS</span></div>
+        </div>
+        <div class="controls-line">
+          <span><b>WASD</b> MOVE / DRIVE</span>
+          <span><b>MOUSE</b> LOOK</span>
+          <span><b>CLICK</b> SHOOT</span>
+          <span><b>E</b> ENTER CAR / JOB</span>
+          <span><b>M</b> MAP</span>
+          <span><b>ESC</b> PAUSE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== PAUSE ===================== -->
+    <div id="pause-screen" class="overlay hidden">
+      <div class="modal">
+        <div class="modal-kicker">GAME PAUSED</div>
+        <h2>TAKE A BREATHER</h2>
+        <div class="pause-stats">
+          <div><span>CASH</span><b id="pause-cash">$0</b></div>
+          <div><span>WANTED</span><b id="pause-wanted">—</b></div>
+          <div><span>SEED</span><b id="pause-seed">—</b></div>
+        </div>
+        <div class="pause-buttons">
+          <button id="resume-btn" class="play-btn"><span>RESUME</span><span class="play-arrow">▶</span></button>
+          <button id="map-btn" class="ghost-btn wide">WORLD MAP <small>M</small></button>
+          <button id="sound-btn" class="ghost-btn wide">SOUND: ON</button>
+          <button id="quit-btn" class="ghost-btn wide danger">NEW SEED / QUIT</button>
+        </div>
+        <div class="pause-controls">
+          <span><b>WASD</b> MOVE</span><span><b>SHIFT</b> SPRINT</span><span><b>SPACE</b> JUMP / HANDBRAKE</span>
+          <span><b>LMB</b> SHOOT</span><span><b>RMB</b> AIM</span><span><b>R</b> RELOAD</span>
+          <span><b>E</b> ENTER/EXIT</span><span><b>H</b> HORN</span><span><b>M</b> MAP</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== WORLD MAP ===================== -->
+    <div id="map-screen" class="overlay hidden">
+      <div class="map-modal">
+        <div class="map-head">
+          <div>
+            <div class="modal-kicker">SAN VOXEL COUNTY — WORLD MAP</div>
+            <h2 id="map-title">SEED: —</h2>
+          </div>
+          <button id="map-close" class="ghost-btn">CLOSE <small>M</small></button>
+        </div>
+        <div class="map-body">
+          <canvas id="bigmap" width="900" height="900"></canvas>
+          <div class="map-legend">
+            <div><span class="legend-dot job"></span>JOB BOARD</div>
+            <div><span class="legend-dot player"></span>YOU</div>
+            <div><span class="legend-dot cop"></span>POLICE</div>
+            <div><span class="legend-dot water"></span>WATER</div>
+            <div><span class="legend-dot city"></span>CITY BLOCKS</div>
+            <div class="map-note">Terrain outside the city is generated by layered noise from the seed. Drive far enough and the county keeps going.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== DEATH ===================== -->
+    <div id="death-screen" class="hidden">
+      <div class="wasted">WASTED</div>
+      <div class="death-sub">THE CITY ALWAYS WINS</div>
+      <div class="death-meta"><span id="death-loss">MEDICAL BILL: $0</span><span id="death-respawn">RESPAWNING…</span></div>
+    </div>
+
+    <!-- ===================== LOADING ===================== -->
+    <div id="loading" class="hidden">
+      <div class="loader-logo">GRAND THEFT <span>BLOCK</span></div>
+      <div class="loader-bar-shell"><div id="loader-bar"></div></div>
+      <div id="loader-text">GENERATING TERRAIN…</div>
+    </div>
+
+    <div id="rotate-hint" class="hidden">ROTATE YOUR DEVICE<br><small>LANDSCAPE IS RECOMMENDED</small></div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
