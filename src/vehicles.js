@@ -514,6 +514,7 @@ export class VehicleManager {
     for (const v of [...this.list]) v.update(dt, game);
 
     // keep ambient traffic populated
+    const p = game.player.pos;
     this.spawnTimer -= dt;
     if (this.spawnTimer <= 0) {
       this.spawnTimer = 1.5;
@@ -522,7 +523,6 @@ export class VehicleManager {
         if (v.driver === 'ai' && !v.police && !v.destroyed) traffic++;
       }
       if (traffic < 10) {
-        const p = game.player.pos;
         for (let tries = 0; tries < 8; tries++) {
           const s = game.world.city.randomRoadSpawn(this.trafficRng);
           const d = Math.hypot(s.x - p.x, s.z - p.z);
